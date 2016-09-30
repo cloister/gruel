@@ -1,0 +1,187 @@
+{"things": {
+	"101": {
+		"name": [
+			"self",
+			"myself",
+			"me"
+		],
+		"type": "fixture",
+		"desc": "Yourself. You seem to be doing pretty well.",
+		"details": "",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	},
+	"10000": {
+		"name": ["shovel"],
+		"type": "item",
+		"desc": "A wooden-handled shovel. It seems like the kind a farmer would use.",
+		"details": "You turn it over. On the back of the handle you see '<3' & ':)' scratched into it. Probably by an 8 year old.",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	},
+	"10001": {
+		"name": [
+			"box",
+			"metal box"
+		],
+		"type": "item",
+		"desc": "A metal box.",
+		"details": "It is closed, but the lid doesn't look too secure...just sayin'.",
+		"contents": [],
+		"actions": {
+			"open": 10004
+		},
+		"requires": []
+	},
+	"10002": {
+		"name": [
+			"mat",
+			"welcome mat"
+		],
+		"type": "item",
+		"desc": "A well-worn mat that has the word WELCOME on it.",
+		"details": "",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	},
+	"10003": {
+		"name": ["key"],
+		"type": "item",
+		"desc": "A strange-looking antique key.",
+		"details": "It has the words 'unlocks door' on it.",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	},
+	"10004": {
+		"name": [
+			"open box",
+			"box",
+			"metal box"
+		],
+		"type": "item",
+		"desc": "A metal box.",
+		"details": "The lid is open. The box is empty. *sad trombone*",
+		"contents": [],
+		"actions": {
+			"close": 10001
+		},
+		"requires": []
+	},
+	"10005": {
+		"name": [
+			"guitar pick",
+			"pick"
+		],
+		"type": "item",
+		"desc": "A plastic guitar pick.",
+		"details": "It appears to have a turtle printed on it with the words \"Red Herring\" underneath.",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	},
+	"10006": {
+		"name": ["trophy"],
+		"type": "item",
+		"desc": "A golden trophy with a picture of a person playing video games on the top.",
+		"details": "The inscription reads: 'Hello, World.'",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	},
+	"50000": {
+		"name": ["door"],
+		"type": "fixture",
+		"desc": "A sturdy-looking, locked door with a doorknob and a keyhole.",
+		"contents": [
+			50006,
+			50007
+		],
+		"actions": {
+			"unlock": 50001
+		},
+		"requires": []
+	},
+	"50001": {
+		"name": ["door"],
+		"type": "fixture",
+		"desc": "A sturdy looking door. It appears to be unlocked. Good job, you!",
+		"contents": [],
+		"actions": {
+			"open": 50005,
+			"close": 50001,
+			"lock": 50000
+		},
+		"requires": [
+			10003
+		]
+	},
+	"50002": {
+		"name": ["drawer"],
+		"type": "fixture",
+		"desc": "A fairly standard drawer. It is closed.",
+		"contents": [],
+		"actions": {
+			"open": 50003
+		},
+		"requires": []
+	},
+	"50003": {
+		"name": ["drawer"],
+		"type": "fixture",
+		"desc": "A fairly standard drawer. It is open.",
+		"contents": [
+			10003
+		],
+		"actions": {
+			"close": 50002
+		},
+		"requires": []
+	},
+	"50004": {
+		"name": ["desk"],
+		"type": "fixture",
+		"desc": "A lovely, antique desk with nothing on it. You notice a drawer at the front of the desk.",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	},
+	"50005": {
+		"name": ["door"],
+		"type": "fixture",
+		"desc": "The door is swung open and you see the welcoming light of outside to the East.",
+		"contents": [
+			50006,
+			50007
+		],
+		"actions": {
+			"close": 50001,
+			"lock": 50000
+		},
+		"requires": []
+	},
+	"50006": {
+		"name": [
+			"doorknob",
+			"door knob",
+			"knob"
+		],
+		"type": "fixture",
+		"desc": "A normal looking doorknob. You assume it turns clockwise as well as counter-clockwise.",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	},
+	"50007": {
+		"name": ["keyhole"],
+		"type": "fixture",
+		"desc": "The keyhole is big enough to fit a key-shapped object into it. Leaning down, you look through it to see bright light on the other side.",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	}
+
+}}

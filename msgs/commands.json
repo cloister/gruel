@@ -1,0 +1,59 @@
+{"commands": {
+	"l": "look",
+	"look": "look",
+
+	"i": "getInv",
+	"inv": "getInv",
+	"inventory": "getInv",
+
+	"help": "help",
+	"commands": "help",
+	"?": "help",
+	"cmds": "help",
+
+	"go": "go",
+	"n": "goNorth",
+	"north": "goNorth",
+	"s": "goSouth",
+	"south": "goSouth",
+	"e": "goEast",
+	"east": "goEast",
+	"w": "goWest",
+	"west": "goWest",
+	"nw": "goNorthwest",
+	"northwest": "goNorthwest",
+	"ne": "goNortheast",
+	"northeeast": "goNortheast",
+	"se": "goSoutheast",
+	"southeast": "goSoutheast",
+	"sw": "goSouthwest",
+	"southwest": "goSouthwest",
+
+	"examine": "examine",
+	"inspect": "examine",
+
+	"get": "getItem",
+	"grab": "getItem",
+	"drop": "dropItem",
+	"leave": "dropItem",
+
+	"open": "open",
+	"close": "close",
+	"shut": "close",
+
+	"unlock": "unlock",
+	"lock": "lock",
+
+	"push": "push",
+	"pull": "pull",
+	"move": "move",
+
+	"hit": "hit",
+	"punch": "hit",
+	"kick": "hit",
+	"attack": "hit",
+	"headbutt": "hit",
+
+	"rock": "rock",
+	"asdf": "asdf"
+}}

@@ -1,0 +1,41 @@
+{"locations": {
+	"0,0,0": {
+		"desc": "You are in a room. There is a door to the East and a desk to the South. There are no windows. That fact seems troubling.",
+		"things": [
+			10000,
+			10001
+		],
+		"requires": []
+	},
+	"1,0,0": {
+		"desc": "You are standing in front of the only door in this weird room.",
+		"things": [
+			50000
+		],
+		"requires": []
+	},
+	"0,-1,0": {
+		"desc": "The southern part of the room seems as bland as the rest of it. In front of you is a wooden desk.",
+		"things": [
+			50002,
+			50004
+		],
+		"requires": []
+	},
+	"2,0,0": {
+		"desc": "You have made it outside. Congratulations!",
+		"things": [
+			10006
+		],
+		"requires": [
+			50005
+		]
+	},
+	"1,1,0": {
+		"desc": "You are in the northeast corner of the room. Nobody puts you in a corner!",
+		"things": [
+			10005
+		],
+		"requires": []
+	}
+}}
