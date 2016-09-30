@@ -8,3 +8,6 @@ Look, examine, get, inventory, ...
 
 # Current State
 BETA - a very simple "Hello, World" adventure
+
+You can check it out here:
+http://www.echo-7.com/gruel/
