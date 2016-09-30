@@ -1,0 +1,44 @@
+/*
+COLOR PALETTE:
+bg - #CBC5FE
+words - #10009C
+dark - #10009C
+accent/light - #7675ff
+*/
+
+body {
+	background-color: #CBC5FE;
+	color: #10009C;
+	font-family: 'VT323', monospace;
+}
+
+#screen {
+	max-width: 700px;
+	margin: 1em auto;
+	font-size: 1.5em;
+}
+
+#gruel_logo {
+	margin-bottom: 1em;
+}
+
+#words {
+	margin-bottom: 2em;
+}
+
+#cmd_line {
+	font-family: 'VT323', monospace;
+	font-size: 1em;
+	background-color: #10009C;
+	border-color: #7675ff;
+	border-width: 20px 10px;
+	border-style: solid;
+	width: 100%;
+	padding: .5em;
+	color: #7675ff;
+	box-sizing: border-box;
+}
+
+.loading {
+	background: url(../imgs/pacman.gif) no-repeat center center;
+}
