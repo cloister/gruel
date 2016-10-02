@@ -139,7 +139,7 @@ var Thing = (function() {
 
 		//have to interact directory w/ the JSON here for it to work
 		var contents = gruel.adventure.things[this._id].contents;
-		if (!$.inArray(item, contents)) {
+		if ($.inArray(item, contents) == -1) {
 			contents.push(item);
 		}
 	};
@@ -183,10 +183,11 @@ var Thing = (function() {
 	};
 
 	//output the display-ready contents
-	Thing.prototype.getContentsHTML = function() {
+	Thing.prototype.getContentsHTML = function(items_only) {
 		var contents = [], item = '';
 
 		$.each(this._contents, function(i, id) {
+			if (items_only == true && gruel.adventure.things[id].type != 'item') return true;
 			item = gruel.adventure.things[id].name[0];
 			contents.push(item);
 		});

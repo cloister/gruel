@@ -142,7 +142,10 @@
 		"requires": []
 	},
 	"50004": {
-		"name": ["desk"],
+		"name": [
+			"desk",
+			"wooden desk"
+		],
 		"type": "fixture",
 		"desc": "A lovely, antique desk with nothing on it. You notice a drawer at the front of the desk.",
 		"contents": [],

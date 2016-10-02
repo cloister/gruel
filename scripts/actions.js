@@ -83,7 +83,9 @@
 
 				//does it contain anything?
 				if (thing_obj.hasContents()) {
-					desc += '<br /><br />'+gruel.adventure.main.contains+thing_obj.getContentsHTML();
+					var items_only = true;
+					var contents = thing_obj.getContentsHTML(items_only);
+					if (contents)	desc += '<br /><br />'+gruel.adventure.main.contains+contents;
 				}
 			}
 

@@ -29,10 +29,11 @@ var Inventory = (function() {
 		var items = [];
 
 		//convert to array if it's not already
-		ids.isArray ? items.concat(ids) : items.push(ids);
+		ids = $.isArray(ids) ? ids : [ids];
+		items = items.concat(ids);
 
 		$.each(items, $.proxy(function(i, id) {
-			if ($.inArray(id, this._items)) {
+			if ($.inArray(id, this._items) >= 0) {
 				res = true;
 				return false;
 			}
@@ -61,8 +62,9 @@ var Inventory = (function() {
 	 */
 	Inventory.prototype.addItem = function(item) {
 		item = parseInt(item);
+
 		//make sure it's not already in there
-		if ($.inArray(item, this._items)) {
+		if ($.inArray(item, this._items) == -1) {
 			this._items.push(item);
 			localStorage.setItem(INVENTORY,this._items);
 		}
@@ -95,7 +97,7 @@ var Inventory = (function() {
 		if (!item) return false;
 
 		//make sure we have it
-		if (!$.inArray(item, this._items)) return false;
+		if ($.inArray(item, this._items) == -1) return false;
 
 		//lose it
 		this.dropItem(item);
