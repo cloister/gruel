@@ -80,6 +80,10 @@
 				return;
 			}
 			this.grabMsg(['main', 'inv'], [inv]);
+		},
+
+		isMsg: function(msg) {
+			return typeof gruel.adventure.main[msg] != 'undefined';
 		}
 	}
 }($));
