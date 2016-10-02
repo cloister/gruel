@@ -31,11 +31,15 @@
 
 	"examine": "examine",
 	"inspect": "examine",
+	"check": "examine",
 
 	"get": "getItem",
 	"grab": "getItem",
+	"take": "getItem",
+	"pick": "getItem",
 	"drop": "dropItem",
 	"leave": "dropItem",
+	"throw": "dropItem",
 
 	"open": "open",
 	"close": "close",
@@ -54,6 +58,5 @@
 	"attack": "hit",
 	"headbutt": "hit",
 
-	"rock": "rock",
-	"asdf": "asdf"
+	"rock": "rock"
 }}
