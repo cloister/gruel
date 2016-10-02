@@ -39,6 +39,9 @@ body {
 	box-sizing: border-box;
 }
 
-.loading {
-	background: url(../imgs/pacman.gif) no-repeat center center;
+#loading {
+	display: none;
+	width: 30px;
+	margin: 1em 0 2em 47%;
+	overflow: hidden;
 }

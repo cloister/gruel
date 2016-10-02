@@ -54,6 +54,8 @@ var INVENTORY = 'gruel_inv';
 		me: 101,
 
 		init: function() {
+			this.loading();
+
 			//load the rest of the javascript
 			this.loadJS();
 
@@ -79,7 +81,7 @@ var INVENTORY = 'gruel_inv';
 			/*if (localStorage.getItem(LOCATION) == '')*/ this.startFresh();
 
 			//goodbye loading icon
-			this.$target.removeClass('loading');
+			this.loading();
 
 			//go!
 			gruel.process.look();
@@ -99,6 +101,23 @@ var INVENTORY = 'gruel_inv';
 					gruel.process.translate($(this).val());
 				}
 			});
+		},
+
+		loading: function() {
+			if ($('#loading').is(':visible')) {
+				$('#loading').hide().stop();
+				this.$target.show();
+			}
+			else {
+				this.$target.hide();
+				$('#loading').show();
+				this.loadingAnimation();
+			}
+		},
+
+		loadingAnimation: function() {
+			$('#loading').css('width', '0');
+			$('#loading').animate({width:'50px'}, 800, gruel.adventure.loadingAnimation);
 		},
 
 		loadJS: function() {
@@ -146,7 +165,7 @@ var INVENTORY = 'gruel_inv';
 		}
 	}
 
-	//let the adventure BEGIN!!!
+	//let's get this party started
 	gruel.adventure.init();
 
 }($));
