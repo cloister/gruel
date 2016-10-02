@@ -29,19 +29,29 @@
 			var words = cmd.split(/ /);
 			var verb = words[0];
 			var noun = cmd.replace(words[0],'').trim();
+
+			//let's skip the whole "the" definite article
+			noun = noun.replace(/the /,'');
+
+			//"pick up" is all part of the verb <--hacky
+			noun = verb == 'pick' ? noun.replace(/up /,'') : noun;
+
 			this.processIt(verb, noun)
 		},
 
 		processIt: function(verb, noun) {
 			var the_func = gruel.adventure.commands[verb];
 
-			//let's skip the whole "the" definite article
-			noun = noun.replace(/the /,'');
-
-			if (typeof the_func != 'undefined') {
+			if (the_func && typeof window["gruel"]["process"][the_func] != 'undefined') {
+				//we know how to process this...
 				window["gruel"]["process"][the_func](noun);
 			}
+			else if (gruel.msg.isMsg(verb)) {
+				//we've got a pat response for this one
+				gruel.msg.show(verb);
+			}
 			else {
+				//Huh?
 				this.dunno();
 			}
 		},
@@ -154,10 +164,6 @@
 			gruel.action.do('move',thing);
 		},
 
-		hit: function(thing) {
-			gruel.msg.show('hit_response');
-		},
-
 		rock: function(thing) {
 			if (thing == "out") {
 				gruel.msg.show('rock_out');
@@ -165,10 +171,6 @@
 			else {
 				gruel.msg.show('rock_unknown');
 			}
-		},
-
-		asdf: function() {
-			gruel.msg.show('asdf');
 		},
 
 		// ¯\_(ツ)_/¯
