@@ -39,7 +39,7 @@
 
 				//done. show it.
 				if (append) {
-					this.$target.append(txt);
+					this.$target.append('<br /><br />'+txt);
 				}
 				else {
 					this.$target.html(txt);
@@ -49,8 +49,6 @@
 		},
 
 		appendMsg: function(msg, vals) {
-			// gruel.helpers.addSpace();
-			this.$target.append('<br /><br />');
 			this.grabMsg(msg, vals, true);
 		},
 

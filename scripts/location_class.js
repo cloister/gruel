@@ -2,6 +2,8 @@ var Location = (function() {
 	"use strict";
 
 	var _here = '',			//coordinates of where we are ("0,0,0")
+			_name = '',			//location NAME
+			_desc = '',			//location description
 			_things = [],		//all those items and fixtures one can find here
 			_requires = [];	//anything that we require to get to here
 
@@ -17,14 +19,26 @@ var Location = (function() {
 	 * get the current location from localStorage
 	 */
 	Location.prototype.setLocalData = function() {
+		var json = gruel.adventure.locations;
 		var pos = JSON.parse(localStorage.getItem(LOCATION));
+
 		this._here = this.formatCoords(pos);
+		this._name = json[this._here].name;
+		this._desc = json[this._here].desc;
 		this._things = this.getVisible();
 		this._requires = this.getRequires();
 	};
 
 	Location.prototype.here = function() {
 		return this._here;
+	};
+
+	Location.prototype.getName = function() {
+		return this._name;
+	};
+
+	Location.prototype.getDesc = function() {
+		return this._desc;
 	};
 
 	Location.prototype.getLocalThings = function() {
@@ -48,8 +62,10 @@ var Location = (function() {
 	};
 
 	Location.prototype.look = function() {
+		//show name
+		gruel.msg.grabMsg(['locations', this._here,'name']);
 		//show the description
-		gruel.msg.grabMsg(['locations', this._here,'desc']);
+		gruel.msg.grabMsg(['locations', this._here,'desc'], '', true);
 		//show any items that are here
 		this.showItems();
 	};
