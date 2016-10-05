@@ -113,6 +113,9 @@
 				//oh, that just happened
 				gruel.msg.show(action+'_done',[thing_obj.getName()]);
 			}
+			else if (thing_obj && thing_obj.getType() == 'fixtures') {
+				gruel.msg.show('getdrop_fixture',[thing_obj.getName()]);
+			}
 			else {
 				//uh...nope
 				gruel.msg.show(action+'_unknown');

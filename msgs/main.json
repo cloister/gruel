@@ -14,6 +14,7 @@
 	"get_done": "You now have the $1.",
 	"drop_unknown": "I don't think you have that...",
 	"drop_done": "You have dropped the $1.",
+	"getdrop_fixture": "The $1 won't budge. It seems quite happy where it is.",
 	"open_unknown": "Wait. What do you want to open?",
 	"close_unknown": "Close what now?",
 	"action_unknown": "You don't see that item anywhere.",
