@@ -1,4 +1,6 @@
 {"commands": {
+	"load": "load",
+
 	"l": "look",
 	"look": "look",
 

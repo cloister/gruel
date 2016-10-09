@@ -29,7 +29,7 @@ var Inventory = (function() {
 		var items = [];
 
 		//convert to array if it's not already
-		ids = $.isArray(ids) ? ids : [ids];
+		if (!$.isArray(ids)) ids = [ids];
 		items = items.concat(ids);
 
 		$.each(items, $.proxy(function(i, id) {

@@ -21,6 +21,9 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
+// OUR ADVENTURE
+var ADVENTURE = '';
+
 // OUR LOCALSTORAGE CONSTANTS
 var LOCATION = 'gruel_loc';
 var INVENTORY = 'gruel_inv';
@@ -44,17 +47,16 @@ var INVENTORY = 'gruel_inv';
 			'process',
 			'thing_class'
 		],
-		json_files: [
+		main_json_files: [
 			'main',
 			'commands',
-			'locations',
-			'things'
+			'adventures'
 		],
 		deferreds: [],
 		me: 101,
 
 		init: function() {
-			this.loading();
+			this.loading(true);
 
 			//load the rest of the javascript
 			this.loadJS();
@@ -64,13 +66,12 @@ var INVENTORY = 'gruel_inv';
 
 			//when those are done, we may get this party started
 			$.when.apply(null, this.deferreds).done($.proxy(function() {
-				this.begin();
+				this.gruelIt();
 			},this));
 		},
 
-		//our callback function to kick off the adventure
-		//after the necessary files have been loaded
-		begin: function() {
+		//our callback function for after the basic files are loaded
+		gruelIt: function() {
 			//get ready
 			this.$cmd.val('').focus();
 
@@ -81,7 +82,21 @@ var INVENTORY = 'gruel_inv';
 			/*if (localStorage.getItem(LOCATION) == '')*/ this.startFresh();
 
 			//goodbye loading icon
-			this.loading();
+			this.loading(false);
+
+			//greeting message
+			gruel.msg.show('welcome');
+
+			//list possible adventures
+			$.each(this.adventures, function(i, obj) {
+				gruel.msg.append('adventure_list',obj.name+'<br />'+obj.desc);
+			});
+		},
+
+		//our callback function to start the adventure
+		begin: function() {
+			//goodbye loading icon
+			this.loading(false);
 
 			//go!
 			gruel.process.look();
@@ -103,8 +118,31 @@ var INVENTORY = 'gruel_inv';
 			});
 		},
 
-		loading: function() {
-			if ($('#loading').is(':visible')) {
+		load: function(adventure) {
+			this.loading(true);
+
+			//validate adventure
+			var adv = gruel.adventure.adventures[adventure];
+			if (typeof adv != 'object') {
+				this.loading(false);
+				gruel.msg.show('adventure_bad', [adventure]);
+				return;
+			}
+
+			//set it
+			ADVENTURE = adventure;
+
+			//load our adventure JSON messages
+			this.loadJSON(adv);
+
+			//when those are done, we may get this party started
+			$.when.apply(null, this.deferreds).done($.proxy(function() {
+				this.begin();
+			},this));
+		},
+
+		loading: function(load) {
+			if (load === false) {
 				$('#loading').hide().stop();
 				this.$target.show();
 			}
@@ -137,11 +175,13 @@ var INVENTORY = 'gruel_inv';
 		 * load all the JSON files into gruel.adventure.data
 		 * so we can access it as an object
 		 */
-		loadJSON: function() {
+		loadJSON: function(adv) {
+			var files = adv ? adv.files : this.main_json_files;
 
-			$.each(this.json_files, $.proxy(function(i,filename) {
+			$.each(files, $.proxy(function(i,filename) {
 				var defer = $.Deferred();
-				var url = this.json_dir + filename + '.json';
+				var dir = (adv) ? adv.dir : this.json_dir;
+				var url = dir + filename + '.json';
 
 				$.ajax({
 					url: url,

@@ -49,10 +49,14 @@
 		},
 
 		appendMsg: function(msg, vals) {
+			//vals should be an array
+			if (!$.isArray(vals)) vals = [vals];
 			this.grabMsg(msg, vals, true);
 		},
 
 		append: function(msg, vals) {
+			//vals should be an array
+			if (!$.isArray(vals)) vals = [vals];
 			this.appendMsg(['main', msg], vals);
 		},
 
@@ -69,6 +73,8 @@
 		},
 
 		show: function(msg, vals) {
+			//vals should be an array
+			if (!$.isArray(vals)) vals = [vals];
 			this.grabMsg(['main', msg], vals);
 		},
 

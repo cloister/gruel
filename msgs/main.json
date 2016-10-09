@@ -1,5 +1,7 @@
 {"main": {
-	"welcome": "Greetings, Adventurer!",
+	"welcome": "Greetings, Adventurer!<br /><br />Welcome to gruel. To start an adventure type 'load' and then the adventure name from this list:",
+	"adventure_list": "> $1",
+	"adventure_bad": "Cannot load adventure: $1",
 	"help": "Common commands:<br />look, inventory, north, south, east, west, get, drop, examine<br /><br />Try using simple commands like [verb] [noun]",
 	"dunno": "Huh?<br /><br />Type help for a list of common commands.",
 	"inv": "Inventory:<br />$1",

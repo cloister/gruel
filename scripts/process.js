@@ -48,7 +48,7 @@
 
 		processIt: function(verb, nouns) {
 			//convert the nouns to an array if it's not already
-			nouns = $.isArray(nouns) ? nouns : [nouns];
+			if (!$.isArray(nouns)) nouns = [nouns];
 
 			var the_func = gruel.adventure.commands[verb];
 
@@ -64,6 +64,10 @@
 				//Huh?
 				this.dunno();
 			}
+		},
+
+		load: function(adventure) {
+			gruel.adventure.load(adventure[0]);
 		},
 
 		getInv: function() {
