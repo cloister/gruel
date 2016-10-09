@@ -129,20 +129,61 @@
 		 * on an item or fixture
 		 */
 		do: function(action, thing) {
-			var res = false;
-
+			var err = '';
 			var thing_obj = this.findThatThing(thing);
 
-			//let's make this happen
-			res = (thing_obj) ? thing_obj.takeAction(action) : 'action_unknown';
+			if (thing_obj) {
+				//let's make this happen
+				var res = thing_obj.takeAction(action);
+				if (res !== true) err = res;
+			}
+			else {
+				err = 'action_unknown';
+			}
 
-			if (res === true) {
+			if (err == '') {
 				//let us re-examine this thing...
 				this.examine(thing);
 			}
 			else {
 				//uh...nope
-				gruel.msg.show(res, [action, thing]);
+				gruel.msg.show(err, [action, thing]);
+			}
+		},
+
+		/**
+		 * doWith()
+		 * -------------------
+		 * general function to take an action
+		 * on an item or fixture with another item or fixture
+		 */
+		doWith: function(action, things) {
+			var err = '';
+
+			var thing_obj_1 = this.findThatThing(things[0]);
+			var thing_obj_2 = this.findThatThing(things[1]);
+			if (!thing_obj_1) err = 'action_with_unknown_1';
+			if (!thing_obj_2) err = 'action_with_unknown_2';
+
+			//let's make this happen
+			if (err == '') {
+				//first noun has to be an item & 2nd has to be a fixture
+				if (thing_obj_1.getType() == 'item' && thing_obj_2.getType() == 'fixture') {
+					var res = thing_obj_1.takeActionWith(action, thing_obj_2);
+					if (res !== true) err = res;
+				}
+				else {
+					err = 'action_with_cannot';
+				}
+			}
+
+			if (err == '') {
+				//let us re-examine the fixture...
+				this.examine(things[1]);
+			}
+			else {
+				//uh...nope
+				gruel.msg.show(err, [action, things[0], things[1]]);
 			}
 		}
 

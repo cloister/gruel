@@ -81,6 +81,39 @@ var Thing = (function() {
 	};
 
 	/**
+	 * takeActionWith()
+	 * ----------------
+	 * do something (action) with the current thing object
+	 * in regards to another object
+	 *
+	 * - action = string
+	 * - thing2 = object of the fixture
+	 *
+	 * returns true if we're cool
+	 * returns error message if we're not cool
+	 */
+	Thing.prototype.takeActionWith = function(action, thing2) {
+		var err = 'action_bad';
+
+		var inv = new Inventory();
+		if (inv.isInInv(this._id)) {
+
+			if (action == 'put') {
+				//put thing1 onto thing2
+				thing2.addItemToContents(this._id);
+				inv.dropItem(this._id);
+				return true;
+			}
+			else if (action == 'use') {
+				//default answer for now
+				err = 'action_with_cannot_use';
+			}
+		}
+
+		return err;
+	};
+
+	/**
 	 * swapItem()
 	 * --------------------
 	 * we're taking an action, so that basically

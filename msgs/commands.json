@@ -45,6 +45,9 @@
 	"close": "close",
 	"shut": "close",
 
+	"put": "put",
+	"use": "use",
+
 	"unlock": "unlock",
 	"lock": "lock",
 

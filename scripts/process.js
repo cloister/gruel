@@ -9,6 +9,7 @@
 	window.gruel = window.gruel || {};
 	window.gruel.process = {
 		url_cmd: './msgs/cmds.json',
+		preposition_regex: /\s(in|on|with|under|from|to|for|at|by|as|into|onto|over|between|out|after|before)\s/,
 
 		translate: function(cmd) {
 			cmd = this.cleanUp(cmd);
@@ -22,29 +23,38 @@
 		},
 
 		/**
-		 * we can reasonably assume that the first word is a verb
-		 * and anything after that is a noun
+		 * we can reasonably assume that the first word is a verb w/ nouns following
+		 * Can handle:
+		 * - [verb]
+		 * - [verb] [noun]
+		 * - [verb] [noun] [preposition] [noun]
 		 */
 		lookItUp: function(cmd) {
 			var words = cmd.split(/ /);
 			var verb = words[0];
-			var noun = cmd.replace(words[0],'').trim();
+			var nouns = cmd.replace(words[0],'').trim();
 
 			//let's skip the whole "the" definite article
-			noun = noun.replace(/the /,'');
+			nouns = nouns.replace(/the\s/,'');
 
 			//"pick up" is all part of the verb <--hacky
-			noun = verb == 'pick' ? noun.replace(/up /,'') : noun;
+			nouns = verb == 'pick' ? nouns.replace(/^up\s/,'') : nouns;
 
-			this.processIt(verb, noun)
+			//split where the preposition is
+			nouns = nouns.replace(this.preposition_regex,',').split(/,/);
+
+			this.processIt(verb, nouns)
 		},
 
-		processIt: function(verb, noun) {
+		processIt: function(verb, nouns) {
+			//convert the nouns to an array if it's not already
+			nouns = $.isArray(nouns) ? nouns : [nouns];
+
 			var the_func = gruel.adventure.commands[verb];
 
 			if (the_func && typeof window["gruel"]["process"][the_func] != 'undefined') {
 				//we know how to process this...
-				window["gruel"]["process"][the_func](noun);
+				window["gruel"]["process"][the_func](nouns);
 			}
 			else if (gruel.msg.isMsg(verb)) {
 				//we've got a pat response for this one
@@ -125,47 +135,55 @@
 		},
 
 		getItem: function(item) {
-			gruel.action.getDropItem('get',item);
+			gruel.action.getDropItem('get',item[0]);
 		},
 
 		dropItem: function(item) {
-			gruel.action.getDropItem('drop',item);
+			gruel.action.getDropItem('drop',item[0]);
 		},
 
 		examine: function(thing) {
-			gruel.action.examine(thing);
+			gruel.action.examine(thing[0]);
 		},
 
 		open: function(thing) {
-			gruel.action.do('open',thing);
+			gruel.action.do('open',thing[0]);
 		},
 
 		close: function(thing) {
-			gruel.action.do('close',thing);
+			gruel.action.do('close',thing[0]);
 		},
 
 		unlock: function(thing) {
-			gruel.action.do('unlock',thing);
+			gruel.action.do('unlock',thing[0]);
 		},
 
 		lock: function(thing) {
-			gruel.action.do('lock',thing);
+			gruel.action.do('lock',thing[0]);
 		},
 
 		push: function(thing) {
-			gruel.action.do('push',thing);
+			gruel.action.do('push',thing[0]);
 		},
 
 		pull: function(thing) {
-			gruel.action.do('pull',thing);
+			gruel.action.do('pull',thing[0]);
 		},
 
 		move: function(thing) {
-			gruel.action.do('move',thing);
+			gruel.action.do('move',thing[0]);
+		},
+
+		put: function(things) {
+			gruel.action.doWith('put',things);
+		},
+
+		use: function(things) {
+			gruel.action.doWith('use',things);
 		},
 
 		rock: function(thing) {
-			if (thing == "out") {
+			if (thing[0] == "out") {
 				gruel.msg.show('rock_out');
 			}
 			else {
