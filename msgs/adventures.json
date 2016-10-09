@@ -1,0 +1,11 @@
+{"adventures": {
+	"hello world": {
+		"name": "Hello World",
+		"desc": "A simple adventure to test out this framework.",
+		"dir": "./adventures/helloworld/",
+		"files": [
+			"locations",
+			"things"
+		]
+	}
+}}
