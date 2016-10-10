@@ -21,8 +21,11 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
+//LocalStorage CONSTANT
+var GRUEL_ADVENTURE = 'gruel_';
+
 //our globals
-// var gAdventure = '';
+var gAdventure = '';
 var gLocation = {};
 var gInventory = [];
 
@@ -76,9 +79,6 @@ var gInventory = [];
 			//get set
 			this.addHandlers();
 
-			//starting from the beginning?
-			this.startFresh();
-
 			//goodbye loading icon
 			this.loading(false);
 
@@ -125,6 +125,19 @@ var gInventory = [];
 				return;
 			}
 
+			//check to see if we have a save file
+			var save_data = JSON.parse(localStorage.getItem(GRUEL_ADVENTURE+adventure.replace(/ /,'_')));
+			if (save_data) {
+				this.loadFromSaveData(adventure, save_data);
+				return;
+			}
+
+			//set our global adventure name
+			gAdventure = adventure;
+
+			//starting from the beginning
+			this.startFresh();
+
 			//load our adventure JSON messages
 			this.loadJSON(adv);
 
@@ -132,6 +145,19 @@ var gInventory = [];
 			$.when.apply(null, this.deferreds).done($.proxy(function() {
 				this.begin();
 			},this));
+		},
+
+		loadFromSaveData(adventure, save_data) {
+			//set adventure name, location, and inventory
+			gAdventure = adventure;
+			gLocation = save_data.loc;
+			gInventory = save_data.inv;
+
+			//load the user's json file objects
+			gruel.adventure.locations = save_data.locations;
+			gruel.adventure.things = save_data.things;
+
+			this.begin();
 		},
 
 		loading: function(load) {
@@ -198,6 +224,31 @@ var gInventory = [];
 
 				this.deferreds.push(defer);
 			},this));
+		},
+
+		/**
+		 * save()
+		 * ------------------
+		 * save our spot in this adventure
+		 * - uses HTML5 LocalStorage
+		 * - saves the following:
+		 * 	- current location
+		 * 	- current inventory
+		 *	- locations.json (modified for this user)
+		 *	- things.json (modified for this user)
+		 */
+		save: function() {
+			var save_obj = {
+				"loc": gLocation,
+				"inv": gInventory,
+				"locations": gruel.adventure.locations,
+				"things": gruel.adventure.things
+			};
+
+			var this_adventure = GRUEL_ADVENTURE+gAdventure.replace(/ /,'_');
+			localStorage.setItem(this_adventure, JSON.stringify(save_obj));
+
+			gruel.msg.show('saved');
 		}
 	}
 

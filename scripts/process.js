@@ -70,6 +70,10 @@
 			gruel.adventure.load(adventure[0]);
 		},
 
+		save: function() {
+			gruel.adventure.save();
+		},
+
 		getInv: function() {
 			var inv = new Inventory();
 			var items = inv.formatItemsAsHtml();

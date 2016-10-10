@@ -1,5 +1,6 @@
 {"commands": {
 	"load": "load",
+	"save": "save",
 
 	"l": "look",
 	"look": "look",

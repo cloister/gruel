@@ -70,12 +70,11 @@ var Location = (function() {
 	};
 
 	Location.prototype.updateLocation = function(x,y,z) {
-		var pos = gLocation;
-
-		//update
-		pos.x += parseInt(x);
-		pos.y += parseInt(y);
-		pos.z += parseInt(z);
+		//set new position
+		var pos = {};
+		pos.x = gLocation.x + parseInt(x);
+		pos.y = gLocation.y + parseInt(y);
+		pos.z = gLocation.z + parseInt(z);
 
 		var coords = this.formatCoords(pos);
 
