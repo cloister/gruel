@@ -50,6 +50,9 @@
 			//convert the nouns to an array if it's not already
 			if (!$.isArray(nouns)) nouns = [nouns];
 
+			//gotta have an adventure to have an adventure in...
+			if (gAdventure == '' && verb != 'load') return;
+
 			var the_func = gruel.adventure.commands[verb];
 
 			if (the_func && typeof window["gruel"]["process"][the_func] != 'undefined') {
