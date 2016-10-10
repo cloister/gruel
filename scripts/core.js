@@ -21,12 +21,10 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-// OUR ADVENTURE
-var ADVENTURE = '';
-
-// OUR LOCALSTORAGE CONSTANTS
-var LOCATION = 'gruel_loc';
-var INVENTORY = 'gruel_inv';
+//our globals
+// var gAdventure = '';
+var gLocation = {};
+var gInventory = [];
 
 (function($) {
 	"use strict";
@@ -79,7 +77,7 @@ var INVENTORY = 'gruel_inv';
 			this.addHandlers();
 
 			//starting from the beginning?
-			/*if (localStorage.getItem(LOCATION) == '')*/ this.startFresh();
+			this.startFresh();
 
 			//goodbye loading icon
 			this.loading(false);
@@ -103,9 +101,7 @@ var INVENTORY = 'gruel_inv';
 		},
 
 		startFresh: function() {
-			//start at the beginning with nothing
-			localStorage.setItem(LOCATION, JSON.stringify(this.starting_location));
-			localStorage.setItem(INVENTORY, '');
+			gLocation = this.starting_location;
 		},
 
 		addHandlers: function() {
@@ -125,12 +121,9 @@ var INVENTORY = 'gruel_inv';
 			var adv = gruel.adventure.adventures[adventure];
 			if (typeof adv != 'object') {
 				this.loading(false);
-				gruel.msg.show('adventure_bad', [adventure]);
+				gruel.msg.append('adventure_bad', [adventure]);
 				return;
 			}
-
-			//set it
-			ADVENTURE = adventure;
 
 			//load our adventure JSON messages
 			this.loadJSON(adv);
@@ -153,6 +146,7 @@ var INVENTORY = 'gruel_inv';
 			}
 		},
 
+		// . . .
 		loadingAnimation: function() {
 			$('#loading').css('width', '0');
 			$('#loading').animate({width:'50px'}, 800, gruel.adventure.loadingAnimation);
@@ -172,8 +166,10 @@ var INVENTORY = 'gruel_inv';
 		},
 
 		/**
-		 * load all the JSON files into gruel.adventure.data
+		 * load all the JSON files into gruel.adventure
 		 * so we can access it as an object
+		 *
+		 * - adv = adventure json files
 		 */
 		loadJSON: function(adv) {
 			var files = adv ? adv.files : this.main_json_files;

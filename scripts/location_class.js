@@ -20,9 +20,8 @@ var Location = (function() {
 	 */
 	Location.prototype.setLocalData = function() {
 		var json = gruel.adventure.locations;
-		var pos = JSON.parse(localStorage.getItem(LOCATION));
 
-		this._here = this.formatCoords(pos);
+		this._here = this.formatCoords(gLocation);
 		this._name = json[this._here].name;
 		this._desc = json[this._here].desc;
 		this._things = this.getVisible();
@@ -71,7 +70,7 @@ var Location = (function() {
 	};
 
 	Location.prototype.updateLocation = function(x,y,z) {
-		var pos = JSON.parse(localStorage.getItem(LOCATION));
+		var pos = gLocation;
 
 		//update
 		pos.x += parseInt(x);
@@ -87,7 +86,7 @@ var Location = (function() {
 		if (!this.hasRequirementsFor(coords)) return false;
 
 		//set the new location
-		localStorage.setItem(LOCATION, JSON.stringify(pos));
+		gLocation = pos;
 
 		//update object
 		this.setLocalData();

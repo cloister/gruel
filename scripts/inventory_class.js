@@ -3,25 +3,11 @@ var Inventory = (function() {
 
 	//construct
 	function Inventory() {
-		//what's in our inventory?
-		this.getInv();
+		this._items = gInventory;
 	};
 
 	Inventory.prototype.items = function() {
 		return this._items;
-	};
-
-	/**
-	 * getInv()
-	 * ----------------
-	 * grab all our inventory items from localStorage
-	 * and set them in _items as an array()
-	 * (these are ids; not names)
-	 */
-	Inventory.prototype.getInv = function() {
-		var inventory = localStorage.getItem(INVENTORY);
-		inventory = inventory.length > 0 ? inventory.split(/,/).map(Number) : [];
-		this._items = inventory;
 	};
 
 	Inventory.prototype.isInInv = function(ids) {
@@ -66,14 +52,14 @@ var Inventory = (function() {
 		//make sure it's not already in there
 		if ($.inArray(item, this._items) == -1) {
 			this._items.push(item);
-			localStorage.setItem(INVENTORY,this._items);
+			gInventory = this._items;
 		}
 	};
 
 	Inventory.prototype.dropItem = function(item) {
 		var key = this._items.indexOf(item);
 		this._items.splice(key, 1);
-		localStorage.setItem(INVENTORY,this._items);
+		gInventory = this._items;
 	};
 
 	Inventory.prototype.pickUp = function(item) {
