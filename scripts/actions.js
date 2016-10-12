@@ -29,6 +29,8 @@
 		 * helper function for something we do a lot here
 		 * - grab all the items with which we can interact
 		 * - then cycle through to grab the object we need
+		 *
+		 * accepts names (string) or id (int)
 		 */
 		findThatThing: function(thing) {
 			var thing_obj = null;
@@ -40,7 +42,7 @@
 
 			//2) all the items in our inventory
 			var inv = new Inventory();
-			things = things.concat(inv.items());
+			things = things.concat(inv.getItems());
 
 			//3) any items those things contain
 			var contents, a_thing = null;
@@ -56,7 +58,15 @@
 				$.each(things, function(i, id) {
 
 					thing_obj = new Thing(id);
-					if (thing_obj && thing_obj.getAllNames().indexOf(thing) >= 0) return false;
+
+					if ($.isNumeric(thing)) {
+						//id
+						if (thing_obj && thing_obj.getId() == thing) return false;
+					}
+					else {
+						//name
+						if (thing_obj && thing_obj.getAllNames().indexOf(thing) >= 0) return false;
+					}
 
 					thing_obj = null;
 				});
@@ -106,6 +116,11 @@
 			if (thing_obj && thing_obj.getType() == 'item') {
 				var id = thing_obj.getId();
 				var inv = new Inventory();
+				if (action == 'get' && inv.isInInv(id)) {
+					gruel.msg.show('have_already',[thing_obj.getName()]);
+					return;
+				}
+
 				res = action == 'get' ? inv.pickUp(id) : inv.dropIt(id);
 			}
 
@@ -143,7 +158,7 @@
 
 			if (err == '') {
 				//let us re-examine this thing...
-				this.examine(thing);
+				this.examine(thing_obj.getName());
 			}
 			else {
 				//uh...nope
