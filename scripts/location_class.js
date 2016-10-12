@@ -192,8 +192,7 @@ var Location = (function() {
 		var things = loc.things;
 		if (typeof things == 'undefined' || things.length == 0) return [];
 
-		//add ourselves
-		//"Wherever you go, there you are."
+		//add ourselves because..."Wherever you go, there you are."
 		things = things.concat([gruel.adventure.me]);
 
 		return things;
