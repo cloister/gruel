@@ -1,13 +1,43 @@
 var Inventory = (function() {
 	"use strict";
 
+	var _contents = [];	//all the stuff inside the stuff in our pocketses
+
 	//construct
 	function Inventory() {
-		this._items = gInventory;
+		//we already know our gInventory, so set our contents
+		this._contents = this.getStuffInsideStuff();
 	};
 
-	Inventory.prototype.items = function() {
-		return this._items;
+	/**
+	 * getStuffInsideStuff()
+	 * -------------------
+	 * grab the contents of our inventory items
+	 */
+	Inventory.prototype.getStuffInsideStuff = function() {
+		var inv_contents = [];
+
+		$.each(gInventory, $.proxy(function(i, id) {
+			var thing = new Thing(id);
+			var contents =  thing ? thing.getContentIds() : '';
+			if (contents) inv_contents = inv_contents.concat(contents);
+		},this));
+
+		return inv_contents;
+	};
+
+	Inventory.prototype.getItems = function() {
+		return gInventory;
+	};
+
+	Inventory.prototype.getContents = function() {
+		return this._contents;
+	};
+
+	//combo of gInventory and _contents
+	Inventory.prototype.getAll = function() {
+		//Add it up! Add it up! Add it up!
+		return gInventory.concat(this._contents);
 	};
 
 	Inventory.prototype.isInInv = function(ids) {
@@ -19,22 +49,22 @@ var Inventory = (function() {
 		items = items.concat(ids);
 
 		$.each(items, $.proxy(function(i, id) {
-			if ($.inArray(id, this._items) >= 0) {
+			if ($.inArray(id, this.getAll()) >= 0) {
 				res = true;
 				return false;
 			}
 		},this));
 
 		return res;
-	}
+	};
 
 	Inventory.prototype.formatItemsAsHtml = function() {
 			var inv = [];
 			var item = '';
 
-			$.each(this._items, $.proxy(function(i, id) {
+			$.each(this.getItems(), $.proxy(function(i, id) {
 				item = new Thing(id);
-				if (item) inv.push(item.getName());
+				if (item && item.getType() == 'item') inv.push(item.getName());
 			},this));
 
 			inv = inv.join('<br />');
@@ -42,24 +72,33 @@ var Inventory = (function() {
 	};
 
 	/**
+	 * addItem()
+	 * ------------------------
 	 * add an item to inventory
-	 * - add it to _items
-	 * - add it to our localStorage
 	 */
 	Inventory.prototype.addItem = function(item) {
 		item = parseInt(item);
 
 		//make sure it's not already in there
-		if ($.inArray(item, this._items) == -1) {
-			this._items.push(item);
-			gInventory = this._items;
-		}
+		if (this.isInInv(item)) return;
+		if ($.inArray(item, gInventory) == -1) gInventory.push(item);
 	};
 
+	/**
+	 * dropItem()
+	 * ------------------------
+	 * remove an item from inventory
+	 */
 	Inventory.prototype.dropItem = function(item) {
-		var key = this._items.indexOf(item);
-		this._items.splice(key, 1);
-		gInventory = this._items;
+		var key = gInventory.indexOf(item);
+		if (key >= 0) gInventory.splice(key, 1);
+
+		var key = this._contents.indexOf(item);
+		if (key >= 0) {
+			this._contents.splice(key, 1);
+			var container = Thing.getContainerObjectById(item);
+			container.removeItemFromContents(item);
+		}
 	};
 
 	Inventory.prototype.pickUp = function(item) {
@@ -83,7 +122,7 @@ var Inventory = (function() {
 		if (!item) return false;
 
 		//make sure we have it
-		if ($.inArray(item, this._items) == -1) return false;
+		if (!this.isInInv(item)) return false;
 
 		//lose it
 		this.dropItem(item);
