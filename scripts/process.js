@@ -34,8 +34,8 @@
 			var verb = words[0];
 			var nouns = cmd.replace(words[0],'').trim();
 
-			//let's skip the whole "the" definite article
-			nouns = nouns.replace(/the\s/,'');
+			//let's skip the definite & indefinite articles
+			nouns = nouns.replace(/\s(the|a|an)\s/,' ');
 
 			//"pick up" is all part of the verb <--hacky
 			nouns = verb == 'pick' ? nouns.replace(/^up\s/,'') : nouns;
@@ -75,6 +75,10 @@
 
 		save: function() {
 			gruel.adventure.save();
+		},
+
+		delete: function(adventure) {
+			gruel.adventure.delete(adventure[0]);
 		},
 
 		getInv: function() {
