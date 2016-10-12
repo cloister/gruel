@@ -1,6 +1,7 @@
 {"commands": {
 	"load": "load",
 	"save": "save",
+	"delete": "delete",
 
 	"l": "look",
 	"look": "look",
@@ -40,6 +41,7 @@
 	"grab": "getItem",
 	"take": "getItem",
 	"pick": "getItem",
+	"pickup": "getItem",
 	"drop": "dropItem",
 	"leave": "dropItem",
 	"throw": "dropItem",
@@ -55,6 +57,7 @@
 	"lock": "lock",
 
 	"push": "push",
+	"press": "push",
 	"pull": "pull",
 	"move": "move",
 
