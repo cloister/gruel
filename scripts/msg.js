@@ -37,6 +37,9 @@
 					});
 				}
 
+				//clean up any syntax errors we might have
+				txt = txt.replace(/\s(the the|the a|a a|a the|the an|an the|an an|a an|an a)\s/,' the ');
+
 				//done. show it.
 				if (append) {
 					this.$target.append('<br /><br />'+txt);
