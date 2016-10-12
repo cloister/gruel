@@ -147,7 +147,7 @@ var gInventory = [];
 			},this));
 		},
 
-		loadFromSaveData(adventure, save_data) {
+		loadFromSaveData: function(adventure, save_data) {
 			//set adventure name, location, and inventory
 			gAdventure = adventure;
 			gLocation = save_data.loc;
@@ -249,6 +249,17 @@ var gInventory = [];
 			localStorage.setItem(this_adventure, JSON.stringify(save_obj));
 
 			gruel.msg.show('saved');
+		},
+
+		delete: function(adventure) {
+			var this_adventure = GRUEL_ADVENTURE+adventure.replace(/ /,'_');
+			if (localStorage.getItem(this_adventure) === null) {
+				gruel.msg.show('deleted_unknown', [adventure]);
+			}
+			else {
+				localStorage.removeItem(this_adventure);
+				gruel.msg.show('deleted',[adventure]);
+			}
 		}
 	}
 
