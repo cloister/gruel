@@ -23,15 +23,16 @@ var Thing = (function() {
 
 	Thing.prototype.makeThingObject = function(id) {
 		var json = gruel.adventure.things;
+		if (typeof json == 'undefined') return;
 
-		this._id = id;
-		this._type = json[id].type;
-		this._name = json[id].name;
-		this._desc = json[id].desc;
-		this._details = json[id].details;
-		this._contents = json[id].contents;
-		this._actions = json[id].actions;
-		this._requires = json[id].requires;
+		if (id) this._id = id;
+		if (json[id].type) this._type = json[id].type;
+		if (json[id].name) this._name = json[id].name;
+		if (json[id].desc) this._desc = json[id].desc;
+		if (json[id].details) this._details = json[id].details;
+		if (json[id].contents) this._contents = json[id].contents;
+		if (json[id].actions) this._actions = json[id].actions;
+		if (json[id].requires) this._requires = json[id].requires;
 	}
 
 	/**
@@ -43,9 +44,24 @@ var Thing = (function() {
 	 * returns error message if we're not cool
 	 */
 	Thing.prototype.takeAction = function(action) {
-		var err = 'action_bad';
-		var new_id = this._actions[action];
-		if (typeof new_id == 'undefined') return err;
+		var err = 'action_bad', new_id = 0;
+		var action_id = this._actions[action];
+		if (typeof action_id == 'undefined') return err;
+
+		//could be an array if we're affecting something else
+		//e.g. - pushing a button to open a box (gotta change the box state)
+		if ($.isArray(action_id)) {
+			//can't only change one thing into one other thing (that's 2 things)
+			if (action_id.length != 2) return err;
+
+			//okay, let's update the current object
+			this.makeThingObject(action_id[0]);
+			new_id = action_id[1];
+		}
+		else {
+			//single id
+			new_id = action_id;
+		}
 
 		var new_thing = new Thing(new_id);
 		var inv = new Inventory();
@@ -204,15 +220,15 @@ var Thing = (function() {
 	};
 
 	Thing.prototype.hasDetails = function() {
-		return this._details.length > 0;
+		return this._details && this._details.length > 0;
 	};
 
 	Thing.prototype.hasContents = function() {
-		return this._contents.length > 0;
+		return this._contents && this._contents.length > 0;
 	};
 
 	Thing.prototype.getContentIds = function() {
-		return this._contents.length > 0 ? this._contents : '';
+		return this._contents && this._contents.length > 0 ? this._contents : '';
 	};
 
 	//output the display-ready contents
@@ -235,6 +251,26 @@ var Thing = (function() {
 
 	Thing.prototype.getRequires = function() {
 		return this._requires;
+	};
+
+	// static
+	// returns Thing object
+	Thing.getContainerObjectById = function(item) {
+		var container_id = 0;
+
+		$.each(gruel.adventure.things, function(i, obj) {
+			if ($.inArray(item, obj['contents']) >= 0) {
+				container_id = i;
+				return false;
+			}
+		});
+
+		if (container_id) {
+			var container = new Thing(container_id);
+			return container;
+		}
+
+		return null;
 	};
 
 	return Thing;
