@@ -28,23 +28,22 @@
 		],
 		"type": "item",
 		"desc": "A metal box.",
-		"details": "It is closed, but the lid doesn't look too secure...just sayin'.",
-		"contents": [],
-		"actions": {
-			"open": 10004
-		},
+		"details": "It is closed. There's a red button located on the top.",
+		"contents": [
+			10002
+		],
+		"actions": {},
 		"requires": []
 	},
 	"10002": {
-		"name": [
-			"mat",
-			"welcome mat"
-		],
-		"type": "item",
-		"desc": "A well-worn mat that has the word WELCOME on it.",
+		"name": ["button"],
+		"type": "fixture",
+		"desc": "Seems like it's one of those buttons that a person might press.",
 		"details": "",
 		"contents": [],
-		"actions": {},
+		"actions": {
+			"push": [10001,10004]
+		},
 		"requires": []
 	},
 	"10003": {
@@ -64,8 +63,10 @@
 		],
 		"type": "item",
 		"desc": "A metal box.",
-		"details": "The lid is open. The box is empty. *sad trombone*",
-		"contents": [],
+		"details": "The lid is open.",
+		"contents": [
+			50008
+		],
 		"actions": {
 			"close": 10001
 		},
@@ -181,10 +182,20 @@
 	"50007": {
 		"name": ["keyhole"],
 		"type": "fixture",
-		"desc": "The keyhole is big enough to fit a key-shapped object into it. Leaning down, you look through it to see bright light on the other side.",
+		"desc": "The keyhole is big enough to fit a key-shaped object into it. Leaning down, you look through it to see bright light on the other side.",
+		"contents": [],
+		"actions": {},
+		"requires": []
+	},
+	"50008": {
+		"name": [
+			"a quarter",
+			"quarter"
+		],
+		"type": "item",
+		"desc": "A quarter. The year on it is 1975. It's heads up.",
 		"contents": [],
 		"actions": {},
 		"requires": []
 	}
-
 }}
