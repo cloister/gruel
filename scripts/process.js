@@ -53,10 +53,15 @@
 			//gotta have an adventure to have an adventure in...
 			if (gAdventure == '' && verb != 'load') return;
 
+			//we might have a synonym for this verb...
 			var the_func = gruel.adventure.commands[verb];
 
-			if (the_func && typeof window["gruel"]["process"][the_func] != 'undefined') {
-				//we know how to process this...
+			if (typeof window["gruel"]["process"][verb] != 'undefined') {
+				//literal function. do it.
+				window["gruel"]["process"][verb](nouns);
+			}
+			else if (the_func && typeof window["gruel"]["process"][the_func] != 'undefined') {
+				//synonym. we know how to process this...
 				window["gruel"]["process"][the_func](nouns);
 			}
 			else if (gruel.msg.isMsg(verb)) {
@@ -81,7 +86,7 @@
 			gruel.adventure.delete(adventure[0]);
 		},
 
-		getInv: function() {
+		inv: function() {
 			var inv = new Inventory();
 			var items = inv.formatItemsAsHtml();
 			gruel.msg.showInv(items);
@@ -109,51 +114,51 @@
 			gruel.msg.show('go_unknown');
 		},
 
-		goNorth: function() {
+		north: function() {
 			gruel.action.goDir(0,1,0);
 		},
 
-		goNorthwest: function() {
+		northwest: function() {
 			gruel.action.goDir(-1,1,0);
 		},
 
-		goNortheast: function() {
+		northeast: function() {
 			gruel.action.goDir(1,1,0);
 		},
 
-		goSouth: function() {
+		south: function() {
 			gruel.action.goDir(0,-1,0);
 		},
 
-		goSouthwest: function() {
+		southwest: function() {
 			gruel.action.goDir(-1,-1,0);
 		},
 
-		goSoutheast: function() {
+		southeast: function() {
 			gruel.action.goDir(1,-1,0);
 		},
 
-		goEast: function() {
+		east: function() {
 			gruel.action.goDir(1,0,0);
 		},
 
-		goWest: function() {
+		west: function() {
 			gruel.action.goDir(-1,0,0);
 		},
 
-		goUp: function() {
+		up: function() {
 			gruel.action.goDir(0,0,1);
 		},
 
-		goDown: function() {
+		down: function() {
 			gruel.action.goDir(0,0,-1);
 		},
 
-		getItem: function(item) {
+		get: function(item) {
 			gruel.action.getDropItem('get',item[0]);
 		},
 
-		dropItem: function(item) {
+		drop: function(item) {
 			gruel.action.getDropItem('drop',item[0]);
 		},
 
@@ -195,6 +200,10 @@
 
 		use: function(things) {
 			gruel.action.doWith('use',things);
+		},
+
+		flip: function(thing) {
+			gruel.action.do('flip',thing[0]);
 		},
 
 		rock: function(thing) {

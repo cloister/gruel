@@ -190,12 +190,15 @@
 	"50008": {
 		"name": [
 			"a quarter",
-			"quarter"
+			"quarter",
+			"coin"
 		],
 		"type": "item",
 		"desc": "A quarter. The year on it is 1975. It's heads up.",
 		"contents": [],
-		"actions": {},
+		"actions": {
+			"flip": "The coin flips through the air. It lands in your hand. It is heads."
+		},
 		"requires": []
 	}
 }}
