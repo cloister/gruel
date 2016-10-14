@@ -1,71 +1,39 @@
 {"commands": {
-	"load": "load",
-	"save": "save",
-	"delete": "delete",
-
 	"l": "look",
-	"look": "look",
 
-	"i": "getInv",
-	"inv": "getInv",
-	"inventory": "getInv",
+	"i": "inv",
+	"inventory": "inv",
 
-	"help": "help",
 	"commands": "help",
 	"?": "help",
 	"cmds": "help",
 
-	"go": "go",
-	"n": "goNorth",
-	"north": "goNorth",
-	"s": "goSouth",
-	"south": "goSouth",
-	"e": "goEast",
-	"east": "goEast",
-	"w": "goWest",
-	"west": "goWest",
-	"nw": "goNorthwest",
-	"northwest": "goNorthwest",
-	"ne": "goNortheast",
-	"northeeast": "goNortheast",
-	"se": "goSoutheast",
-	"southeast": "goSoutheast",
-	"sw": "goSouthwest",
-	"southwest": "goSouthwest",
+	"n": "north",
+	"s": "south",
+	"e": "east",
+	"w": "west",
+	"nw": "northwest",
+	"ne": "northeast",
+	"se": "southeast",
+	"sw": "southwest",
 
-	"examine": "examine",
 	"inspect": "examine",
 	"check": "examine",
 
-	"get": "getItem",
-	"grab": "getItem",
-	"take": "getItem",
-	"pick": "getItem",
-	"pickup": "getItem",
-	"drop": "dropItem",
-	"leave": "dropItem",
-	"throw": "dropItem",
+	"grab": "get",
+	"take": "get",
+	"pick": "get",
+	"pickup": "get",
 
-	"open": "open",
-	"close": "close",
+	"leave": "drop",
+	"throw": "drop",
+
 	"shut": "close",
 
-	"put": "put",
-	"use": "use",
-
-	"unlock": "unlock",
-	"lock": "lock",
-
-	"push": "push",
 	"press": "push",
-	"pull": "pull",
-	"move": "move",
 
-	"hit": "hit",
 	"punch": "hit",
 	"kick": "hit",
 	"attack": "hit",
-	"headbutt": "hit",
-
-	"rock": "rock"
+	"headbutt": "hit"
 }}
