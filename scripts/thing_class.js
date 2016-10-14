@@ -40,11 +40,13 @@ var Thing = (function() {
 	 * ----------------
 	 * do something (action) with the current thing object
 	 *
-	 * returns true if we're cool
-	 * returns error message if we're not cool
+	 * returns:
+	 * - true = good; no action should take place
+	 * - "examine" = good; now look at the thing again
+	 * - error message = bad
 	 */
 	Thing.prototype.takeAction = function(action) {
-		var err = 'action_bad', new_id = 0;
+		var examine = 'examine', err = 'action_bad', new_id = 0;
 		var action_id = this._actions[action];
 		if (typeof action_id == 'undefined') return err;
 
@@ -58,9 +60,15 @@ var Thing = (function() {
 			this.makeThingObject(action_id[0]);
 			new_id = action_id[1];
 		}
-		else {
+		else if ($.isNumeric(action_id)) {
 			//single id
 			new_id = action_id;
+		}
+		else {
+			//it's not even an id? that's a terrible var name
+			//must be a custom message string. let's display it
+			gruel.msg.renderMsg(action_id);
+			return true;
 		}
 
 		var new_thing = new Thing(new_id);
@@ -77,14 +85,14 @@ var Thing = (function() {
 		if (this._type == 'fixture') {
 			//1) a fixture in the room
 			this.swapItem(new_thing);
-			return true;
+			return examine;
 		}
 		else if (this._type == 'item') {
 
 			if (inv.isInInv(this._id)) {
 				//2) in our inventory
 				this.swapItem(new_thing, inv);
-				return true;
+				return examine;
 			}
 
 			//3) an item we're not holding

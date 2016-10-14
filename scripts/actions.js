@@ -144,25 +144,27 @@
 		 * on an item or fixture
 		 */
 		do: function(action, thing) {
-			var err = '';
+			var res;
 			var thing_obj = this.findThatThing(thing);
 
 			if (thing_obj) {
 				//let's make this happen
-				var res = thing_obj.takeAction(action);
-				if (res !== true) err = res;
+				res = thing_obj.takeAction(action);
 			}
 			else {
-				err = 'action_unknown';
+				res = 'action_unknown';
 			}
 
-			if (err == '') {
+			if (res === true) {
+				//we're good. do nothing
+			}
+			else if (res == 'examine') {
 				//let us re-examine this thing...
 				this.examine(thing_obj.getName());
 			}
 			else {
 				//uh...nope
-				gruel.msg.show(err, [action, thing]);
+				gruel.msg.show(res, [action, thing]);
 			}
 		},
 
