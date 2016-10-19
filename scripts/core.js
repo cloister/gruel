@@ -97,7 +97,14 @@ var gInventory = [];
 			this.loading(false);
 
 			//go!
-			gruel.process.look();
+			if (typeof gruel.adventure.intro != 'undefined') {
+				//show intro if we have one
+				this.doIntro();
+			}
+			else {
+				//otherwise, let's take a look around
+				gruel.process.look();
+			}
 		},
 
 		startFresh: function() {
@@ -111,6 +118,29 @@ var gInventory = [];
 				if (key == 13) {
 					gruel.process.translate($(this).val());
 				}
+			});
+		},
+
+		/**
+		 * doIntro()
+		 * -----------------
+		 * - show the one-time intro text
+		 * - hide the cmd line
+		 * - press space to continue
+		 */
+		doIntro: function() {
+			this.$cmd.fadeOut(function() {
+				gruel.msg.showIntro(gruel.adventure.intro);
+
+				$(window).on('keypress', function(e) {
+					var key = e.which;
+					if (key == 32) {
+						$(window).off('keypress');
+						gruel.adventure.$cmd.fadeIn(function() {
+							gruel.process.look();
+						})
+					}
+				});
 			});
 		},
 

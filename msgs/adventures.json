@@ -4,6 +4,7 @@
 		"desc": "A simple adventure to test out this framework.",
 		"dir": "./adventures/helloworld/",
 		"files": [
+			"intro",
 			"locations",
 			"things"
 		]
