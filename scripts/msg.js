@@ -91,6 +91,12 @@
 
 		isMsg: function(msg) {
 			return typeof gruel.adventure.main[msg] != 'undefined';
+		},
+
+		showIntro: function(intro) {
+			this.renderMsg(gruel.adventure.adventures[gAdventure].name);
+			this.renderMsg(intro, '', true);
+			this.append('cta_next');
 		}
 	}
 }($));
