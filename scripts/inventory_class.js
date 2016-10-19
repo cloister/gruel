@@ -1,11 +1,10 @@
 var Inventory = (function() {
 	"use strict";
 
-	var _contents = [];	//all the stuff inside the stuff in our pocketses
-
 	//construct
 	function Inventory() {
 		//we already know our gInventory, so set our contents
+		//aka "all the stuff inside the stuff in our pocketses"
 		this._contents = this.getStuffInsideStuff();
 	};
 
@@ -59,12 +58,23 @@ var Inventory = (function() {
 	};
 
 	Inventory.prototype.formatItemsAsHtml = function() {
-			var inv = [];
-			var item = '';
+			var inv = [], item = '', contents = [];
 
 			$.each(this.getItems(), $.proxy(function(i, id) {
 				item = new Thing(id);
-				if (item && item.getType() == 'item') inv.push(item.getName());
+				if (item && item.getType() == 'item') {
+					//add item
+					inv.push(item.getName());
+
+					contents = item.getContentIds();
+					$.each(contents, $.proxy(function(i, id) {
+						item = new Thing(id);
+						if (item && item.getType() == 'item') {
+							//add contents item
+							inv.push('- '+item.getName());
+						}
+					},this));
+				}
 			},this));
 
 			inv = inv.join('<br />');
