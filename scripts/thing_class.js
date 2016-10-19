@@ -6,14 +6,8 @@
 var Thing = (function() {
 	"use strict";
 
-	var _id = 0,				//unique id
-			_type = '',			//'item' or 'fixture'
-			_name = '',			//thing name (can be array of names)
-			_desc = '',			//basic description
-			_details = '',	//extra details when we have it in inventory
-			_contents = [],	//things this thing contains
-			_actions = {},	//actions that work on this thing
-			_requires = [];	//anything required to access this thing
+	//the max amount of items something can hold
+	var CONTENTS_LIMIT = 3;
 
 	//construct
 	function Thing(id) {
@@ -25,14 +19,15 @@ var Thing = (function() {
 		var json = gruel.adventure.things;
 		if (typeof json == 'undefined') return;
 
-		if (id) this._id = id;
-		if (json[id].type) this._type = json[id].type;
-		if (json[id].name) this._name = json[id].name;
-		if (json[id].desc) this._desc = json[id].desc;
-		if (json[id].details) this._details = json[id].details;
-		if (json[id].contents) this._contents = json[id].contents;
-		if (json[id].actions) this._actions = json[id].actions;
-		if (json[id].requires) this._requires = json[id].requires;
+		if (id) this._id = id;																				//unique id
+		if (json[id].type) this._type = json[id].type;								//'item' or 'fixture'
+		if (json[id].name) this._name = json[id].name;								//thing name (can be array of names)
+		if (json[id].desc) this._desc = json[id].desc;								//basic description
+		if (json[id].details) this._details = json[id].details;				//extra details when we have it in inventory
+		if (json[id].contents) this._contents = json[id].contents;		//things this thing contains
+		if (json[id].container) this._container = json[id].container;	//is container (can contain things)
+		if (json[id].actions) this._actions = json[id].actions;				//actions that work on this thing
+		if (json[id].requires) this._requires = json[id].requires;		//anything required to access this thing
 	}
 
 	/**
@@ -47,8 +42,8 @@ var Thing = (function() {
 	 */
 	Thing.prototype.takeAction = function(action) {
 		var examine = 'examine', err = 'action_bad', new_id = 0;
-		var action_id = this._actions[action];
-		if (typeof action_id == 'undefined') return err;
+		var action_id = typeof this._actions != 'undefined' ? this._actions[action] : 0;
+		if (typeof action_id == 'undefined' || action_id == 0) return err;
 
 		//could be an array if we're affecting something else
 		//e.g. - pushing a button to open a box (gotta change the box state)
@@ -124,9 +119,15 @@ var Thing = (function() {
 
 			if (action == 'put') {
 				//put thing1 onto thing2
-				thing2.addItemToContents(this._id);
-				inv.dropItem(this._id);
-				return true;
+				if (thing2.getContentItemCount() < CONTENTS_LIMIT) {
+					thing2.addItemToContents(this._id);
+					inv.dropItem(this._id);
+					return true;
+				}
+				else {
+					//maxxed out
+					err = 'action_with_too_many';
+				}
 			}
 			else if (action == 'use') {
 				//default answer for now
@@ -236,7 +237,7 @@ var Thing = (function() {
 	};
 
 	Thing.prototype.getContentIds = function() {
-		return this._contents && this._contents.length > 0 ? this._contents : '';
+		return this._contents && this._contents.length > 0 ? this._contents : [];
 	};
 
 	//output the display-ready contents
@@ -253,12 +254,28 @@ var Thing = (function() {
 		return contents;
 	};
 
+	Thing.prototype.getContentItemCount = function() {
+		var item_count = 0;
+
+		if (typeof this._contents != 'undefined') {
+			$.each(this._contents, function (i, id) {
+				if (gruel.adventure.things[id].type == 'item') item_count++;
+			});
+		}
+
+		return item_count;
+	};
+
+	Thing.prototype.isContainer = function() {
+		return typeof this._container != 'undefined' ? this._container : 0;
+	};
+
 	Thing.prototype.getActions = function() {
-		return this._actions;
+		return typeof this._actions != 'undefined' ? this._actions : {};
 	};
 
 	Thing.prototype.getRequires = function() {
-		return this._requires;
+		return typeof this._requires != 'undefined' ? this._requires : [];
 	};
 
 	// static

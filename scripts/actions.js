@@ -14,11 +14,15 @@
 			var loc = new Location();
 			var res = loc.updateLocation(x,y,z);
 
-			if (res) {
+			if (res.success === true) {
 				//take a gander...
 				gruel.process.look();
 			}
+			else if (res.err) {
+				gruel.msg.renderMsg(res.err);
+			}
 			else {
+				//default nope
 				gruel.msg.show('nogo');
 			}
 		},
@@ -184,8 +188,8 @@
 
 			//let's make this happen
 			if (err == '') {
-				//first noun has to be an item & 2nd has to be a fixture
-				if (thing_obj_1.getType() == 'item' && thing_obj_2.getType() == 'fixture') {
+				//first noun has to be an item & 2nd has be able to store stuff
+				if (thing_obj_1.getType() == 'item' && thing_obj_2.isContainer()) {
 					var res = thing_obj_1.takeActionWith(action, thing_obj_2);
 					if (res !== true) err = res;
 				}

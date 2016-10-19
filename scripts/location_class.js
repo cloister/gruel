@@ -1,12 +1,6 @@
 var Location = (function() {
 	"use strict";
 
-	var _here = '',			//coordinates of where we are ("0,0,0")
-			_name = '',			//location NAME
-			_desc = '',			//location description
-			_things = [],		//all those items and fixtures one can find here
-			_requires = [];	//anything that we require to get to here
-
 	//construct
 	function Location() {
 		//grab our current location, items, & fixtures
@@ -21,11 +15,11 @@ var Location = (function() {
 	Location.prototype.setLocalData = function() {
 		var json = gruel.adventure.locations;
 
-		this._here = this.formatCoords(gLocation);
-		this._name = json[this._here].name;
-		this._desc = json[this._here].desc;
-		this._things = this.getVisible();
-		this._requires = this.getRequires();
+		this._here = this.formatCoords(gLocation);	//coordinates of where we are ("0,0,0")
+		this._name = json[this._here].name;					//location NAME
+		this._desc = json[this._here].desc;					//location description
+		this._things = this.getVisible();						//all those items and fixtures one can find here
+		this._requires = this.getRequires();				//anything that we require to get to here
 	};
 
 	Location.prototype.here = function() {
@@ -69,7 +63,17 @@ var Location = (function() {
 		this.showItems();
 	};
 
+	/**
+	 * updateLocation()
+	 * ----------------------
+	 * our main function to move from one location to another
+	 * returns json result
+	 * - success = well...success!
+	 * - error = msg to render
+	 */
 	Location.prototype.updateLocation = function(x,y,z) {
+		var success = false, err = '';
+
 		//set new position
 		var pos = {};
 		pos.x = gLocation.x + parseInt(x);
@@ -78,36 +82,56 @@ var Location = (function() {
 
 		var coords = this.formatCoords(pos);
 
-		//are we in a good place?
-		if (typeof gruel.adventure.locations[coords] == 'undefined') return false;
+		//are we in a going to a bad place?
+		if (typeof gruel.adventure.locations[coords] != 'undefined') {
+			//do we have the requirements?
+			var has_requirements = this.hasRequirementsFor(coords);
 
-		//do we have the requirements?
-		if (!this.hasRequirementsFor(coords)) return false;
+			if (has_requirements.success) {
+				//set the new location
+				gLocation = pos;
 
-		//set the new location
-		gLocation = pos;
+				//update object
+				this.setLocalData();
 
-		//update object
-		this.setLocalData();
+				//huzzah!
+				success = true;
+			}
+			else {
+				err = has_requirements.err;
+			}
+		}
 
-		return true;
+		return {'success':success,'err':err};
 	};
 
+	/**
+	 * hasRequirementsFor()
+	 * ----------------------
+	 * make sure we have whatever we need (fixture/item) to get to the next location
+	 */
 	Location.prototype.hasRequirementsFor = function(new_coords) {
+		var success = false, err = '';
 		var requires = gruel.adventure.locations[new_coords].requires;
-		if (requires.length == 0) return true;
-
 		var things = this.getVisible();
-		var res = false;
 
-		$.each(requires, function(i, id) {
-			if (things.indexOf(id) >= 0) {
-				res = true;
-				return false;
-			}
-		});
+		if (typeof requires != 'undefined') {
+			$.each(requires, function(id, msg) {
+				if (things.indexOf(parseInt(id)) >= 0) {
+					success = true;
+					return false;
+				}
+				else {
+					err = msg;
+				}
+			});
+		}
+		else {
+			//requires nothing
+			success = true;
+		}
 
-		return res;
+		return {'success':success,'err':err};
 	};
 
 	Location.prototype.showItems = function() {
