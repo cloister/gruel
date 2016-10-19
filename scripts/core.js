@@ -114,7 +114,7 @@ var gInventory = [];
 		addHandlers: function() {
 			this.$cmd.on('keypress', function(e) {
 				var key = e.which;
-				//enter key action!
+				// [enter]
 				if (key == 13) {
 					gruel.process.translate($(this).val());
 				}
@@ -134,11 +134,11 @@ var gInventory = [];
 
 				$(window).on('keypress', function(e) {
 					var key = e.which;
+					// [space bar]
 					if (key == 32) {
 						$(window).off('keypress');
-						gruel.adventure.$cmd.fadeIn(function() {
-							gruel.process.look();
-						})
+						gruel.process.look();
+						gruel.adventure.$cmd.fadeIn();
 					}
 				});
 			});
