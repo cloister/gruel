@@ -54,7 +54,8 @@
 		"desc": "A metal box.",
 		"details": "The lid is open.",
 		"contents": [
-			50008
+			50008,
+			10003
 		],
 		"container": 1,
 		"actions": {
@@ -116,7 +117,7 @@
 		"type": "fixture",
 		"desc": "A fairly standard drawer. It is open.",
 		"contents": [
-			10003
+			10001
 		],
 		"container": 1,
 		"actions": {

@@ -3,8 +3,7 @@
 		"name": "STRANGE ROOM - CENTER",
 		"desc": "You are in a room. There is a door to the East and a desk to the South. There are no windows. That fact seems troubling. You have the overwhelming urge to get out of this room.",
 		"things": [
-			10000,
-			10001
+			10000
 		]
 	},
 	"1,0,0": {
