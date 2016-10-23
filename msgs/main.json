@@ -6,7 +6,6 @@
 	"saved": "This adventure has been saved. Type 'load [adventure name]' to get back to here.",
 	"deleted": "Deleted adventure: $1<br /><br />Reload to start a new adventure.",
 	"deleted_bad": "Could not find '$1' to delete.",
-	"help": "Common commands:<br />look, inventory, north, south, east, west, get, drop, examine, save<br /><br />Try using simple commands like [verb] [noun]",
 	"dunno": "Huh?<br /><br />Type help for a list of common commands.",
 	"inv": "Inventory:<br />$1",
 	"inv_empty": "Inventory:<br /><br />Your pockets are empty.",

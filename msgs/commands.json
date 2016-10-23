@@ -1,12 +1,14 @@
 {"commands": {
 	"l": "look",
 
-	"i": "inv",
-	"inventory": "inv",
+	"i": "inventory",
+	"inv": "inventory",
 
 	"commands": "help",
 	"?": "help",
 	"cmds": "help",
+
+	"travel": "go",
 
 	"n": "north",
 	"s": "south",

@@ -86,7 +86,7 @@
 			gruel.adventure.delete(adventure[0]);
 		},
 
-		inv: function() {
+		inventory: function() {
 			var inv = new Inventory();
 			var items = inv.formatItemsAsHtml();
 			gruel.msg.showInv(items);
@@ -97,8 +97,12 @@
 			loc.look();
 		},
 
-		help: function() {
-			gruel.msg.show('help');
+		help: function(cmd) {
+			gruel.help.showHelp(cmd[0]);
+		},
+
+		fullhelp: function() {
+			gruel.help.showFullHelp();
 		},
 
 		go: function(dir) {

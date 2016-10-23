@@ -41,6 +41,7 @@ var gInventory = [];
 		starting_location: {x:0,y:0,z:0},
 		js_files: [
 			'actions',
+			'help',
 			'html-sanitizer-minified',
 			'inventory_class',
 			'location_class',
@@ -49,9 +50,10 @@ var gInventory = [];
 			'thing_class'
 		],
 		main_json_files: [
-			'main',
+			'adventures',
 			'commands',
-			'adventures'
+			'help',
+			'main'
 		],
 		deferreds: [],
 		me: 101,
