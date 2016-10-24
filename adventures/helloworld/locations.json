@@ -1,16 +1,17 @@
 {"locations": {
 	"0,0,0": {
 		"name": "STRANGE ROOM - CENTER",
-		"desc": "You are in a room. There is a door to the East and a desk to the South. There are no windows. That fact seems troubling. You have the overwhelming urge to get out of this room.",
+		"desc": "You are in a room. There is a door to the East and a desk to the South. You have the overwhelming urge to get out of this room.",
 		"things": [
 			10000
 		]
 	},
 	"1,0,0": {
 		"name": "DOORWAY",
-		"desc": "You are standing in front of the only door in this weird room.",
+		"desc": "You are standing in front of the only door in this weird room. There is a small, round window next to the door.",
 		"things": [
-			50000
+			50000,
+			50010
 		]
 	},
 	"0,-1,0": {

@@ -188,5 +188,19 @@
 		],
 		"type": "fixture",
 		"desc": "A wooden ladder propped against the wall. Above it is a dark opening."
+	},
+	"50010": {
+		"name": [
+			"window",
+			"small window",
+			"round window",
+			"small, round window"
+		],
+		"type": "fixture",
+		"desc": "The window is closed. Through it you can see daylight and freedom. Well, you know, the concept of freedom.",
+		"actions": {
+			"open": "The window is sealed shut without a way to open it.",
+			"break": "The window is impenetrable."
+		}
 	}
 }}
