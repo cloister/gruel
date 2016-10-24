@@ -19,7 +19,7 @@
 				gruel.msg.grabMsg(['help','basic_help']);
 			}
 			else {
-				//help about s specific command
+				//help about a specific command
 				//1 - translate it if it's an alias
 				var the_func = gruel.adventure.commands[cmd];
 				cmd = the_func ? the_func : cmd;
@@ -28,6 +28,10 @@
 				if (cmd && typeof gruel.adventure.help[cmd] != 'undefined') {
 					var help_msg = this.formatHelp(cmd);
 					gruel.msg.renderMsg(help_msg);
+				}
+				else if (cmd && typeof window['gruel']['process'][cmd] != 'undefined') {
+					//no help msg, but valid command
+					gruel.msg.grabMsg(['help','help_dunno'],[cmd]);
 				}
 				else {
 					gruel.process.dunno();
@@ -70,7 +74,7 @@
 
 			//go through all our commands for which we have help info
 			$.each(gruel.adventure.help, $.proxy(function(cmd,desc) {
-				if (cmd == 'basic_help') return true; //skip
+				if (cmd == 'basic_help' || cmd == 'help_dunno') return true; //skip
 				var help_msg = this.formatHelp(cmd);
 				if (help_msg) msg += help_msg+'<br /><br />';
 			},this));

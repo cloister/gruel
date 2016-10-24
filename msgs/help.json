@@ -1,5 +1,6 @@
 {"help": {
 	"basic_help": "Common commands:<br />look, inventory, north, south, east, west, get, drop, examine, save<br /><br />Try using simple commands like [verb] [noun]<br /><br />Type 'help [commmand]' for information about a specific command.<br /><br />Type 'fullhelp' for ALL THE HELP. (Warning: loooooooooong)",
+	"help_dunno": "<b>$1</b><br />Interesting idea... Try it. It might work.",
 	"close": "Close something.",
 	"delete": "Delete a saved gruel game. For use when you want to start a game from the beginning.",
 	"down": "Move yourself downwards (like on stairs or a ladder).",
