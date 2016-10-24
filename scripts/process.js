@@ -37,8 +37,23 @@
 			//let's skip the definite & indefinite articles
 			nouns = nouns.replace(/\s(the|a|an)\s/,' ');
 
-			//"pick up" is all part of the verb <--hacky
-			nouns = verb == 'pick' ? nouns.replace(/^up\s/,'') : nouns;
+			//there's a chance that the 2nd word is part of the command
+			//deal with it 	⌐■-■
+			var second_cmd = nouns.match(/^(.+)\s/);
+			if (second_cmd) {
+				second_cmd = second_cmd[1];
+
+				//"pick up" is all part of the verb <--hacky
+				if (verb == 'pick' && second_cmd == 'up') {
+					nouns = nouns.replace(/^up\s/,'');
+				}
+
+				//"look out" translates to "examine"
+				if (verb == 'look' && second_cmd == 'out') {
+					nouns = nouns.replace(/^out\s/,'');
+					verb = 'examine';
+				}
+			}
 
 			//split where the preposition is
 			nouns = nouns.replace(this.preposition_regex,',').split(/,/);
@@ -211,6 +226,10 @@
 
 		flip: function(thing) {
 			gruel.action.do('flip',thing[0]);
+		},
+
+		break: function(thing) {
+			gruel.action.do('break',thing[0]);
 		},
 
 		rock: function(thing) {
