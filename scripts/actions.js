@@ -200,7 +200,7 @@
 
 			if (err == '') {
 				//let us re-examine the fixture...
-				this.examine(things[1]);
+				this.examine(thing_obj_2.getId());
 			}
 			else {
 				//uh...nope

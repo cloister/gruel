@@ -6,9 +6,6 @@
 var Thing = (function() {
 	"use strict";
 
-	//the max amount of items something can hold
-	var CONTENTS_LIMIT = 3;
-
 	//construct
 	function Thing(id) {
 		if (typeof id == 'undefined' || !id || id.length == 0) return;
@@ -17,15 +14,18 @@ var Thing = (function() {
 
 	Thing.prototype.makeThingObject = function(id) {
 		var json = gruel.adventure.things;
-		if (typeof json == 'undefined') return;
+		id = parseInt(id);
+
+		if (typeof json == 'undefined' || !id || typeof json[id] == 'undefined') return;
 
 		if (id) this._id = id;																				//unique id
 		if (json[id].type) this._type = json[id].type;								//'item' or 'fixture'
 		if (json[id].name) this._name = json[id].name;								//thing name (can be array of names)
+		if (json[id].mass) this._mass = json[id].mass;								//mass of an item (1 = small / 10 = huge)
 		if (json[id].desc) this._desc = json[id].desc;								//basic description
 		if (json[id].details) this._details = json[id].details;				//extra details when we have it in inventory
 		if (json[id].contents) this._contents = json[id].contents;		//things this thing contains
-		if (json[id].container) this._container = json[id].container;	//is container (can contain things)
+		if (json[id].container_size) this._container_size = json[id].container_size;	//how much mass this thing can contain
 		if (json[id].actions) this._actions = json[id].actions;				//actions that work on this thing
 		if (json[id].requires) this._requires = json[id].requires;		//anything required to access this thing
 	}
@@ -119,8 +119,7 @@ var Thing = (function() {
 
 			if (action == 'put') {
 				//put thing1 onto thing2
-				if (thing2.getContentItemCount() < CONTENTS_LIMIT) {
-					thing2.addItemToContents(this._id);
+				if (thing2.addItemToContents(this)) {
 					inv.dropItem(this._id);
 					return true;
 				}
@@ -188,18 +187,23 @@ var Thing = (function() {
 	 * addItemToContents()
 	 * ------------------------
 	 * assumes we already have the thing object loaded for the container
-	 * - item = id for thing we're adding
+	 * - item = object for item we're adding
+	 * Note: how much an object can hold is based on mass of total objects
+	 * and the container_size of the container
 	 */
 	Thing.prototype.addItemToContents = function(item) {
-		if (!this) return;
+		if (!this) return false;
 
-		item = parseInt(item);
+		//is it too much?
+		if ((this.getCurrentMass() + item.getMass()) > this.getContainerSize()) return false;
 
 		//have to interact directory w/ the JSON here for it to work
 		var contents = gruel.adventure.things[this._id].contents;
-		if ($.inArray(item, contents) == -1) {
-			contents.push(item);
+		if ($.inArray(item.getId(), contents) == -1) {
+			contents.push(item.getId());
 		}
+
+		return true;
 	};
 
 	Thing.prototype.getId = function() {
@@ -218,6 +222,11 @@ var Thing = (function() {
 	//returns array
 	Thing.prototype.getAllNames = function() {
 		return this._name;
+	};
+
+	//returns int
+	Thing.prototype.getMass = function() {
+		return parseInt(this._mass);
 	};
 
 	Thing.prototype.getDesc = function() {
@@ -244,30 +253,37 @@ var Thing = (function() {
 	Thing.prototype.getContentsHTML = function(items_only) {
 		var contents = [], item = '';
 
-		$.each(this._contents, function(i, id) {
-			if (items_only == true && gruel.adventure.things[id].type != 'item') return true;
-			item = gruel.adventure.things[id].name[0];
-			contents.push(item);
-		});
+		if (typeof this._contents != 'undefined') {
+			$.each(this._contents, function(i, id) {
+				var this_thing = new Thing(id);
+				if (items_only == true && this_thing.getType() != 'item') return true;
+				contents.push(this_thing.getName());
+			});
+		}
 
 		contents = contents.join('<br />');
 		return contents;
 	};
 
-	Thing.prototype.getContentItemCount = function() {
-		var item_count = 0;
+	Thing.prototype.getCurrentMass = function() {
+		var mass = 0;
 
 		if (typeof this._contents != 'undefined') {
-			$.each(this._contents, function (i, id) {
-				if (gruel.adventure.things[id].type == 'item') item_count++;
+			$.each(this._contents, function(i, id) {
+				var thing = new Thing(id);
+				mass += thing.getMass();
 			});
 		}
 
-		return item_count;
-	};
+		return mass;
+	}
 
 	Thing.prototype.isContainer = function() {
-		return typeof this._container != 'undefined' ? this._container : 0;
+		return typeof this._container_size != 'undefined' && this._container_size > 0;
+	};
+
+	Thing.prototype.getContainerSize = function() {
+		return typeof this._container_size != 'undefined' ? this._container_size : 0;
 	};
 
 	Thing.prototype.getActions = function() {
@@ -285,7 +301,7 @@ var Thing = (function() {
 
 		$.each(gruel.adventure.things, function(i, obj) {
 			if ($.inArray(item, obj['contents']) >= 0) {
-				container_id = i;
+				container_id = parseInt(i);
 				return false;
 			}
 		});

@@ -108,10 +108,13 @@
 		go: function(dir) {
 			if (dir.length > 0) {
 				var func = gruel.adventure.commands[dir];
-				if (typeof func != 'undefined') {
-					window["gruel"]["process"][func]();
-					return;
+				if (typeof window["gruel"]["process"][dir] != 'undefined') {
+					window["gruel"]["process"][dir]();
 				}
+				else if (typeof func != 'undefined') {
+					window["gruel"]["process"][func]();
+				}
+				return;
 			}
 
 			//bad directions...

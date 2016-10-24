@@ -12,6 +12,7 @@
 	"10000": {
 		"name": ["shovel"],
 		"type": "item",
+		"mass": 7,
 		"desc": "A wooden-handled shovel. It seems like the kind a farmer would use.",
 		"details": "You turn it over. On the back of the handle you see '<3' & ':)' scratched into it. Probably by an 8 year old."
 	},
@@ -21,6 +22,7 @@
 			"metal box"
 		],
 		"type": "item",
+		"mass": 4,
 		"desc": "A metal box.",
 		"details": "It is closed. There's a red button located on the top.",
 		"contents": [
@@ -33,6 +35,7 @@
 	"10002": {
 		"name": ["button"],
 		"type": "fixture",
+		"mass": 1,
 		"desc": "Seems like it's one of those buttons that a person might press.",
 		"actions": {
 			"push": [10001,10004]
@@ -41,6 +44,7 @@
 	"10003": {
 		"name": ["key"],
 		"type": "item",
+		"mass": 1,
 		"desc": "A strange-looking antique key.",
 		"details": "It has the words 'unlocks door' on it."
 	},
@@ -51,13 +55,14 @@
 			"metal box"
 		],
 		"type": "item",
+		"mass": 4,
 		"desc": "A metal box.",
 		"details": "The lid is open.",
 		"contents": [
 			50008,
 			10003
 		],
-		"container": 1,
+		"container_size": 2,
 		"actions": {
 			"close": 10001,
 			"open": "It's already open."
@@ -69,12 +74,14 @@
 			"pick"
 		],
 		"type": "item",
+		"mass": 1,
 		"desc": "A plastic guitar pick.",
 		"details": "It appears to have a turtle printed on it with the words \"Red Herring\" underneath."
 	},
 	"10006": {
 		"name": ["trophy"],
 		"type": "item",
+		"mass": 4,
 		"desc": "A golden trophy with a picture of a person playing video games on the top.",
 		"details": "The inscription reads: 'Hello, World.'"
 	},
@@ -119,7 +126,7 @@
 		"contents": [
 			10001
 		],
-		"container": 1,
+		"container_size": 4,
 		"actions": {
 			"close": 50002
 		}
@@ -158,7 +165,8 @@
 	"50007": {
 		"name": ["keyhole"],
 		"type": "fixture",
-		"desc": "The keyhole is big enough to fit a key-shaped object into it. Leaning down, you look through it to see bright light on the other side."
+		"desc": "The keyhole is big enough to fit a key-shaped object into it. Leaning down, you look through it to see bright light on the other side.",
+		"container_size": 1
 	},
 	"50008": {
 		"name": [
@@ -167,9 +175,18 @@
 			"coin"
 		],
 		"type": "item",
+		"mass": 1,
 		"desc": "A quarter. The year on it is 1975. It's heads up.",
 		"actions": {
 			"flip": "The coin flips through the air. It lands in your hand. It is heads."
 		}
+	},
+	"50009": {
+		"name": [
+			"ladder",
+			"wooden ladder"
+		],
+		"type": "fixture",
+		"desc": "A wooden ladder propped against the wall. Above it is a dark opening."
 	}
 }}
