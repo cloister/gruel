@@ -9,6 +9,7 @@
 	"cmds": "help",
 
 	"travel": "go",
+	"climb": "go",
 
 	"n": "north",
 	"s": "south",
@@ -18,6 +19,9 @@
 	"ne": "northeast",
 	"se": "southeast",
 	"sw": "southwest",
+
+	"u": "up",
+	"d": "down",
 
 	"inspect": "examine",
 	"check": "examine",
