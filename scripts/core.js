@@ -34,7 +34,7 @@ var gInventory = [];
 
 	window.gruel = window.gruel || {};
 	window.gruel.adventure = {
-		$target: $('#words'),
+		$output: $('#output'),
 		$cmd: $('#cmd_line'),
 		js_dir: './scripts/',
 		json_dir: './msgs/',
@@ -109,8 +109,15 @@ var gInventory = [];
 			}
 		},
 
+		/**
+		 * startFresh()
+		 * -------------
+		 * reset user for a new adventure
+		 * NOTE: we should already have the gAdventure name in place
+		 */
 		startFresh: function() {
 			gLocation = this.starting_location;
+			gInventory = [];
 		},
 
 		addHandlers: function() {
@@ -134,18 +141,23 @@ var gInventory = [];
 			this.$cmd.fadeOut(function() {
 				gruel.msg.showIntro(gruel.adventure.intro);
 
-				$(window).on('keypress', function(e) {
-					var key = e.which;
-					// [space bar]
-					if (key == 32) {
-						$(window).off('keypress');
+				$(window).on('click keypress', function(e) {
+					// click/tap or [space bar]
+					if (e.type == 'click' || e.type == 'keypress' && e.which == 32) {
+						$(window).off('click keypress');
 						gruel.process.look();
-						gruel.adventure.$cmd.fadeIn();
+						gruel.adventure.$cmd.fadeIn().focus();
 					}
 				});
 			});
 		},
 
+		/**
+		 * load()
+		 * -------------
+		 * load a full adventure into memory
+		 * - adventure = adventure name
+		 */
 		load: function(adventure) {
 			this.loading(true);
 
@@ -192,13 +204,31 @@ var gInventory = [];
 			this.begin();
 		},
 
+		/**
+		 * loading()
+		 * -----------------
+		 * toggle loading animation
+		 * - load = true/false
+		 */
 		loading: function(load) {
+			//NOT LOADING
 			if (load === false) {
+				//stop the loading animation
 				$('#loading').hide().stop();
-				this.$target.show();
+
+				//show our main text block
+				this.$output.show();
 			}
+			//LOADING
 			else {
-				this.$target.hide();
+				//hide the main text block
+				this.$output.hide();
+
+				//clear out our output blocks
+				$('#location').html('');
+				$('#words').html('');
+
+				//show loading animation
 				$('#loading').show();
 				this.loadingAnimation();
 			}
