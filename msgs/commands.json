@@ -9,7 +9,6 @@
 	"cmds": "help",
 
 	"travel": "go",
-	"climb": "go",
 
 	"n": "north",
 	"s": "south",
