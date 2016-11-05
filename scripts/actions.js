@@ -107,7 +107,7 @@
 				gruel.msg.show('examine', [desc]);
 			}
 			else {
-				gruel.msg.show('examine_nothing');
+				gruel.msg.show('examine_nothing', [thing]);
 			}
 		},
 
