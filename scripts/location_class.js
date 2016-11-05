@@ -54,13 +54,26 @@ var Location = (function() {
 		return coords;
 	};
 
+	/**
+	 * look()
+	 * ------------
+	 * THE function to display the location on the screen
+	 */
 	Location.prototype.look = function() {
-		//show name
-		gruel.msg.grabMsg(['locations', this._here,'name']);
-		//show the description
-		gruel.msg.grabMsg(['locations', this._here,'desc'], '', true);
+		var name = this.getName();
+		var desc = this.getDesc();
+
+		//display location
+		$('#location').html(name+'<br /><br />'+desc).fadeIn();
+
+		//clear words spot
+		gruel.msg.clear();
+
 		//show any items that are here
 		this.showItems();
+
+		//clear input
+		gruel.msg.resetCmd();
 	};
 
 	/**
