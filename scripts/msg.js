@@ -48,7 +48,7 @@
 					this.$target.html(txt);
 				}
 
-				this.$cmd.val('').focus();
+				this.resetCmd();
 		},
 
 		appendMsg: function(msg, vals) {
@@ -66,7 +66,7 @@
 		displayItems: function(items) {
 			if (typeof items == 'undefined' || items.length == 0) return;
 
-			this.append('you_see');
+			this.show('you_see');
 
 			var item = '';
 			$.each(items, $.proxy(function(i, obj) {
@@ -97,6 +97,14 @@
 			this.renderMsg(gruel.adventure.adventures[gAdventure].name);
 			this.renderMsg(intro, '', true);
 			this.append('cta_next');
+		},
+
+		clear: function() {
+			this.$target.html('');
+		},
+
+		resetCmd: function() {
+			this.$cmd.val('').focus();
 		}
 	}
 }($));
