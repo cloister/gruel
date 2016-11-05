@@ -32,8 +32,16 @@ body {
 	margin-bottom: 1em;
 }
 
+#location {
+	background-color: #BAB5FD;
+	padding: .5em;
+	margin-bottom: .5em;
+	display: none;
+}
+
 #words {
-	margin-bottom: 2em;
+	margin-bottom: 1em;
+	padding: .5em;
 }
 
 #cmd_line {
