@@ -129,6 +129,9 @@
 				else if (typeof func != 'undefined') {
 					window["gruel"]["process"][func]();
 				}
+				else {
+					gruel.msg.show('go_unknown');
+				}
 				return;
 			}
 
@@ -214,6 +217,19 @@
 
 		move: function(thing) {
 			gruel.action.do('move',thing[0]);
+		},
+
+		climb: function(thing) {
+			//Check to see if they are going up/down
+			var dir = thing[0].match(/^(up|down)/);
+			if (dir !== null) {
+				this.go(dir[0].trim());
+			}
+			else {
+				//let's assume it's an object (like a tree or a ladder)
+				//we really just want a direction
+				gruel.msg.show('climb_unknown');
+			}
 		},
 
 		put: function(things) {
