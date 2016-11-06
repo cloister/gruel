@@ -38,7 +38,10 @@
 			nouns = nouns.replace(/\s(the|a|an)\s/,' ');
 
 			//there's a chance that the 2nd word is part of the command
-			//deal with it 	⌐■-■
+			//deal with it
+			//(•_•)
+			//( •_•)>⌐■-■
+			//(⌐■_■)
 			var second_cmd = nouns.match(/^(.+)\s/);
 			if (second_cmd) {
 				second_cmd = second_cmd[1];

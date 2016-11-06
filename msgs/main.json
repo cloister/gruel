@@ -11,7 +11,7 @@
 	"inv_empty": "Inventory:<br /><br />Your pockets are empty.",
 	"nogo": "Can't go that way.",
 	"you_see": "You see:<br />",
-	"examine": "You see:<br />$1",
+	"examine": "You examine the $1. You see:<br />$2",
 	"examine_nothing": "You don't see the $1 here.",
 	"contains": "It contains:<br />",
 	"go_unknown": "Go where?",
