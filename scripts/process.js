@@ -11,6 +11,12 @@
 		url_cmd: './msgs/cmds.json',
 		preposition_regex: /\s(in|on|with|under|from|to|for|at|by|as|into|onto|over|between|out|after|before)\s/,
 
+		//verbs that use our do() function
+		do_verbs: ['open','close','unlock','lock','push','pull','move','flip','break'],
+
+		//verbs that use our doWith() function
+		doWith_verbs: ['put','use'],
+
 		translate: function(cmd) {
 			cmd = this.cleanUp(cmd);
 			this.lookItUp(cmd);
@@ -42,6 +48,7 @@
 			//(•_•)
 			//( •_•)>⌐■-■
 			//(⌐■_■)
+			//----------------
 			var second_cmd = nouns.match(/^(.+)\s/);
 			if (second_cmd) {
 				second_cmd = second_cmd[1];
@@ -57,6 +64,7 @@
 					verb = 'examine';
 				}
 			}
+			//----------------
 
 			//split where the preposition is
 			nouns = nouns.replace(this.preposition_regex,',').split(/,/);
@@ -72,15 +80,20 @@
 			if (gAdventure == '' && verb != 'load') return;
 
 			//we might have a synonym for this verb...
-			var the_func = gruel.adventure.commands[verb];
+			verb = gruel.adventure.commands[verb] != null ? gruel.adventure.commands[verb] : verb;
 
-			if (typeof window["gruel"]["process"][verb] != 'undefined') {
+			//PROCESS IT!
+			if (window["gruel"]["process"][verb] != null) {
 				//literal function. do it.
 				window["gruel"]["process"][verb](nouns);
 			}
-			else if (the_func && typeof window["gruel"]["process"][the_func] != 'undefined') {
-				//synonym. we know how to process this...
-				window["gruel"]["process"][the_func](nouns);
+			else if ($.inArray(verb, this.do_verbs) >= 0) {
+				//we can process it, but we don't have a custom function for it (single)
+				gruel.action.do(verb,thing[0]);
+			}
+			else if ($.inArray(verb, this.doWith_verbs) >= 0) {
+				//we can process it, but we don't have a custom function for it (double)
+				gruel.action.doWith(verb,things);
 			}
 			else if (gruel.msg.isMsg(verb)) {
 				//we've got a pat response for this one
@@ -194,34 +207,6 @@
 			gruel.action.examine(thing[0]);
 		},
 
-		open: function(thing) {
-			gruel.action.do('open',thing[0]);
-		},
-
-		close: function(thing) {
-			gruel.action.do('close',thing[0]);
-		},
-
-		unlock: function(thing) {
-			gruel.action.do('unlock',thing[0]);
-		},
-
-		lock: function(thing) {
-			gruel.action.do('lock',thing[0]);
-		},
-
-		push: function(thing) {
-			gruel.action.do('push',thing[0]);
-		},
-
-		pull: function(thing) {
-			gruel.action.do('pull',thing[0]);
-		},
-
-		move: function(thing) {
-			gruel.action.do('move',thing[0]);
-		},
-
 		climb: function(thing) {
 			//Check to see if they are going up/down
 			var dir = thing[0].match(/^(up|down)/);
@@ -233,22 +218,6 @@
 				//we really just want a direction
 				gruel.msg.show('climb_unknown');
 			}
-		},
-
-		put: function(things) {
-			gruel.action.doWith('put',things);
-		},
-
-		use: function(things) {
-			gruel.action.doWith('use',things);
-		},
-
-		flip: function(thing) {
-			gruel.action.do('flip',thing[0]);
-		},
-
-		break: function(thing) {
-			gruel.action.do('break',thing[0]);
 		},
 
 		rock: function(thing) {
